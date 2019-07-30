@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "es">
+  <head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+</head>
+<body>
+    <a href="http://jquery.com/">Click Me</a>
+    <script src="jquery.js"></script>
+    <script>
+ 
+    $(document).ready(function() {
+
+      $("a").click(function() {
+        event.preventDefault();
+        alert("thanks for visiting");
+        
+        $(this).hide("slow");
+      })
+
+
+
+    }
+    )
+      
+ 
+    </script>
+</body>
+</html>
