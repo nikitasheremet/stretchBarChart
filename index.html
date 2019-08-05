@@ -4,11 +4,29 @@
     <meta charset="utf-8">
     <title>Barchart</title>
     <link rel="stylesheet" href="chart.css">
+    
 </head>
 <body>
-  <h1>BarChart</h1>
+   
+  <div id = drawChart></div>
 
-    <script src="jquery.js"></script>
-    <script src = "chartJs.js"></script>
+  <!--Scripts to call jQuery library and chart JS file to run drawBarChart() function-->
+  <script src="jquery.js"></script>
+  <script src = "chartJs.js"></script>
+
+  <!--Script to call drawBarChart() function and build graph-->
+  <script>
+     
+    var data = [20,20,45,40,2,7,78];
+    var elem = "#drawChart";
+    var options = {title: "Best Line Chart", xAxisTitle: "hours", yAxisTitle: "dollars"};
+    drawBarChart(data,options, elem);
+          
+  </script>
+
+
+  
+  
+    
 </body>
 </html>

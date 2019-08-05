@@ -1,0 +1,30 @@
+/*.barChartContainer {
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(241, 241, 241);
+  width: 80%;
+  height: 600px;
+  border: 1px darkgrey;
+  padding: 10px;
+  box-shadow: 5px 5px rgba(68, 68, 68, 0.144);
+}
+.chartTitle {
+  text-align: center;
+}
+.chartVisual {
+  width: 80%;
+  height: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  display: table;
+}
+.listBars {
+  list-style-type: none;
+  bottom: 0px;
+}
+.bars {
+  display: inline;
+}*/
+
