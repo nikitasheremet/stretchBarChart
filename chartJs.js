@@ -3,8 +3,14 @@
   //defines default options
   let dOpt = {
     title: "title",
+    titleFont: "arial",
+    titleColor: "black",
     xAxisTitle: "x-axis-title",
-    yAxisTitle: "y-axis-title"
+    yAxisTitle: "y-axis-title",
+    valuePosition: "middle",
+    barColor: "grey",
+    lableColor: "black",
+    barSpacing: "20px"
   };
   // updates default options with options provided by user
   for (let property in options) {
