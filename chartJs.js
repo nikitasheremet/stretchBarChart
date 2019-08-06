@@ -15,6 +15,20 @@
   
   let openDiv = "<div class = ";
   let closeDiv = "</div>";
+
+  //calculates limit of chart
+  let roundTop;
+  switch (true) {
+    case dataMax > 50:
+      roundTop = 100 * Math.ceil(dataMax/100);
+      break;
+    case dataMax > 10:
+      roundTop = 10 * Math.ceil(dataMax/10);
+      break;
+    case dataMax > 0:
+      roundTop = Math.ceil(dataMax);
+  }
+  alert("round top: " + roundTop);
   
   //functiion creates 6 divs within parent div matching 'elem' in order to organize titles and graphing area
   $(elem).append(function defineGraphArea(){
@@ -28,33 +42,34 @@
     return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml;
   });
   
-  function createVisual () { ///////////////Creates visuals in graph area
+  function createVisual () { /////////////// Creates visuals in graph area //////////////
       
-    $(".graph-area").append(function defineBars() { //creates bars in graph area
+    $(".graph-area").append(function defineBars() { //creates bars and axis lines
       let output = "";
       for (i = 0; i < lenData; i++) {
         output += openDiv + "bar-" + i + ">" + data[i] + closeDiv;
       }
+      for (i = 1; i <= 5; i++) {
+        output += openDiv + "axis-line-" + i + ">" + closeDiv;
+      }
       return output;
     });
-
-    //calculates limit of chart
-    let roundTop;
-    switch (true) {
-      case dataMax > 50:
-        roundTop = 100 * Math.ceil(dataMax/100);
-        break;
-      case dataMax > 10:
-        roundTop = 10 * Math.ceil(dataMax/10);
-        break;
-      case dataMax > 0:
-        roundTop = Math.ceil(dataMax);
+    for (i = 1; i <=5; i++) { ///////////////////////draws axis lines
+      elemAxisLine = ".axis-line-" + i;
+      $(elemAxisLine).css({
+        "grid-area" : function () {
+          let output = i + "/1/" + (i+1) + "/8";
+          return output;
+        },
+        "border-bottom" : "dashed"
+      })
     }
+    
     // draws bars inside chart area
     for (i = 0; i < lenData; i++) {
-      elem = ".bar-"+i;
-      $(elem).css({
-        "grid-area" : function setGrid() {
+      elemBar = ".bar-"+i;
+      $(elemBar).css({
+        "grid-area" : function () {
           let output =   "1/" + (i+1) + "/7/" + (i+2);
           return output;
         },
@@ -63,7 +78,7 @@
         "height": function setHeight() {
           let fillPer;
           let pxFill;
-          fillPer = data[i]/(roundTop + ((roundTop/5)/2));
+          fillPer = data[i]/(roundTop + ((roundTop/5)));
           pxFill = fillPer * 450;
           return pxFill + "px";
         },
@@ -72,7 +87,7 @@
         "left" : "0px"
       });
     }
-  }
+  } ///////////////////////////////////////////////////////////
   $(elem).css({
     "width": "80%",
     "height": "600px",
@@ -85,39 +100,47 @@
     "background-color": "lightgrey",
   });
   $(".title").css({
-    "grid-column-start": "3",
-    "grid-column-end": "4",
-    "grid-row-start": "1",
-    "grid-row-end": "2"
+    "grid-area" : "1/3/2/4"
   });
   $(".x-axis-title").css({
-    "grid-column-start": "3",
-    "grid-column-end": "4",
-    "grid-row-start": "4",
-    "grid-row-end": "5"
-    
+    "grid-area" : "4/3/5/4"
   });
   $(".y-axis-title").css({
-    "grid-column-start": "1",
-    "grid-column-end": "2",
-    "grid-row-start": "2",
-    "grid-row-end": "3"
-    
+    "grid-area" : "2/1/3/2",
+    "writing-mode": "vertical-lr",
+    "transform" : "rotate(180deg)",
+    "text-align" : "center"
   });
   $(".x-axis").css({
-    "grid-column-start": "3",
-    "grid-column-end": "4",
-    "grid-row-start": "3",
-    "grid-row-end": "4"
-    
+    "grid-area" : "3/3/4/4"
   });
   $(".y-axis").css({
-    "grid-column-start": "2",
-    "grid-column-end": "3",
-    "grid-row-start": "2",
-    "grid-row-end": "3"
-    
+    "grid-area" : "2/2/3/3",
+    "display" : "grid",
+    "grid-template-columns" : "1fr",
+    "grid-template-rows" : "1fr 2fr 2fr 2fr 2fr 2fr 1fr"
   });
+  $(".y-axis").append(function () {
+    output = "";
+    for (i = 1; i <= 5; i++) {
+      output += openDiv + "y-axis-" + i + ">" + (roundTop/5)*i + closeDiv;
+    }
+    return output;
+  })
+  for (i = 1; i <= 5; i++) {
+    elemYAxis = ".y-axis-" + i;
+    $(elemYAxis).css({
+      "grid-area" : function () {
+        let output = (-i-1) + "/1/" + (-i-2) + "/2";
+        return output;
+      },
+      "text-align" : "center",
+      "padding" : "50% 0"
+    })
+  }
+  $(".y-axis-1").css({
+    "grid-area" : "-2/1/-3/2"
+  })
   $(".graph-area").css({
     "grid-area" : "2/3/3/4",
     "background-color": "pink",
@@ -136,7 +159,7 @@
     "position":"relative"
   });
 
-    createVisual();
+  createVisual();
   
 
   
