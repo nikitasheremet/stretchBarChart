@@ -16,10 +16,10 @@
   let openDiv = "<div class = ";
   let closeDiv = "</div>";
 
-  //calculates limit of chart
+  //calculates  top limit of chart
   let roundTop;
   switch (true) {
-    case dataMax > 50:
+    case dataMax > 80:
       roundTop = 100 * Math.ceil(dataMax/100);
       break;
     case dataMax > 10:
@@ -42,31 +42,33 @@
     return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml;
   });
   
-  function createVisual () { /////////////// Creates visuals in graph area //////////////
+  function createVisual() { /////////////// Creates visuals in graph area //////////////
       
-    $(".graph-area").append(function defineBars() { //creates bars and axis lines
+    $(".graph-area").append(function () { //creates bars and axis lines
       let output = "";
       for (i = 0; i < lenData; i++) {
         output += openDiv + "bar-" + i + ">" + data[i] + closeDiv;
       }
+     // alert(output);
       for (i = 1; i <= 5; i++) {
         output += openDiv + "axis-line-" + i + ">" + closeDiv;
       }
+     // alert(output);
       return output;
     });
+    
     for (i = 1; i <=5; i++) { ///////////////////////draws axis lines
       elemAxisLine = ".axis-line-" + i;
       $(elemAxisLine).css({
         "grid-area" : function () {
-          let output = i + "/1/" + (i+1) + "/8";
+          let output = i + "/1/" + (i+1) + "/" + (lenData+1);
           return output;
         },
         "border-bottom" : "dashed"
       })
     }
     
-    /////////////////////////////////////// draws bars inside chart area
-    for (i = 0; i < lenData; i++) {
+    for (i = 0; i < lenData; i++) { ///////////////////// draws bars inside chart area
       elemBar = ".bar-"+i;
       $(elemBar).css({
         "grid-area" : function () {
@@ -74,17 +76,18 @@
           return output;
         },
         "background-color" : "lightblue",
-        "position" : "absolute",
-        "height": function setHeight() {
+        //"position" : "absolute",
+        "height": function () {
           let fillPer;
           let pxFill;
           fillPer = data[i]/(roundTop + ((roundTop/5)));
-          pxFill = fillPer * 450;
+          pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
           return pxFill + "px";
         },
-        "bottom" : "0px",
-        "right" : "0px",
-        "left" : "0px"
+        //"bottom" : "0px",
+        //"right" : "0px",
+        //"left" : "0px",
+        "place-self" : "end stretch"
       });
     }
   } ///////////////////////////////////////////////////////////
@@ -123,7 +126,7 @@
   $(".y-axis").append(function () {///// creates divs for y axis values
     output = "";
     for (i = 1; i <= 5; i++) {
-      output += openDiv + "y-axis-" + i + ">" + (roundTop/5)*i + closeDiv;
+      output += openDiv + "y-axis-" + i + ">" + ((roundTop/5)*i).toFixed(1) + closeDiv;
     }
     return output;
   })
@@ -138,22 +141,16 @@
       "padding" : "50% 0"
     })
   }
-  $(".y-axis-1").css({
-    "grid-area" : "-2/1/-3/2"
-  })
   $(".graph-area").css({
     "grid-area" : "2/3/3/4",
     "background-color": "pink",
     "display": "grid",
-    "grid-template-columns": function makeCol() { ///// divides graph area into columns
-      let output = "";
-      for (i = 0; i < lenData; i++) {
-        output += "1fr ";
-      }
+    "grid-template-columns": function () { ///// divides graph area into columns
+      let output = "repeat(" + lenData + ",1fr)";
       return output;
     },
-    "grid-template-rows": "1fr 1fr 1fr 1fr 1fr 1fr",
-    "grid-column-gap": "50px",
+    "grid-template-rows": "repeat(6,1fr)",
+    "grid-column-gap": "20px",
     "padding-left":"10px",
     "padding-right": "10px",
     "position":"relative"
