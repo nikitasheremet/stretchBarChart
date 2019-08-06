@@ -65,7 +65,7 @@
       })
     }
     
-    // draws bars inside chart area
+    /////////////////////////////////////// draws bars inside chart area
     for (i = 0; i < lenData; i++) {
       elemBar = ".bar-"+i;
       $(elemBar).css({
@@ -120,14 +120,14 @@
     "grid-template-columns" : "1fr",
     "grid-template-rows" : "1fr 2fr 2fr 2fr 2fr 2fr 1fr"
   });
-  $(".y-axis").append(function () {
+  $(".y-axis").append(function () {///// creates divs for y axis values
     output = "";
     for (i = 1; i <= 5; i++) {
       output += openDiv + "y-axis-" + i + ">" + (roundTop/5)*i + closeDiv;
     }
     return output;
   })
-  for (i = 1; i <= 5; i++) {
+  for (i = 1; i <= 5; i++) { //// positions y axis values along axis
     elemYAxis = ".y-axis-" + i;
     $(elemYAxis).css({
       "grid-area" : function () {
@@ -145,7 +145,7 @@
     "grid-area" : "2/3/3/4",
     "background-color": "pink",
     "display": "grid",
-    "grid-template-columns": function makeCol() {
+    "grid-template-columns": function makeCol() { ///// divides graph area into columns
       let output = "";
       for (i = 0; i < lenData; i++) {
         output += "1fr ";
