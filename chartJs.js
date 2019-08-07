@@ -8,7 +8,7 @@
     xAxisTitle: "x-axis-title",
     yAxisTitle: "y-axis-title",
     valuePosition: "middle",
-    barColor: "grey",
+    barColor: ["grey","lightgreen","lightblue", "purple"],
     lableColor: "black",
     barSpacing: "20px",
     xAxisLable: ["toronto", "ottawa", "montreal", "kingston", "vancouver", "new york"],
@@ -21,8 +21,8 @@
   //alert(data);
   let arrayLen = data.length;
   let lenData = data[0].length;
-  //alert("lenData is:" + lenData);
-  //alert("arrayLen is: " + arrayLen);
+  alert("lenData is:" + lenData);
+  alert("arrayLen is: " + arrayLen);
   let dataMax;
   
   if (dOpt.type === "stacked") {
@@ -74,11 +74,10 @@
       
     $(".graph-area").append(function () { //creates bars and axis lines
       let output = "";
-      for (i = 0; i < lenData; i++) {
-        output += openDiv + "bar-" + i + ">" + data[0][i] + closeDiv;
-      }
-      if (dOpt.type === "stacked") {
-        
+      for (i = 0; i < arrayLen; i++) {
+        for (a = 0; a < lenData; a++) {
+          output += openDiv + "bar-" + i + a + ">" + data[i][a] + closeDiv;
+        }
       }
      // alert(output);
       for (i = 1; i <= 5; i++) {
@@ -98,28 +97,44 @@
         "border-bottom" : "dashed"
       })
     }
-    
-    for (i = 0; i < lenData; i++) { ///////////////////// draws bars inside chart area
-      elemBar = ".bar-"+i;
-      $(elemBar).css({
-        "grid-area" : function () {
-          let output =   "1/" + (i+1) + "/7/" + (i+2);
-          return output;
-        },
-        "background-color" : "lightblue",
-        //"position" : "absolute",
-        "height": function () {
-          let fillPer;
-          let pxFill;
-          fillPer = data[0][i]/(roundTop + ((roundTop/5)));
-          pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
-          return pxFill + "px";
-        },
-        //"bottom" : "0px",
-        //"right" : "0px",
-        //"left" : "0px",
-        "place-self" : "end stretch"
-      });
+    for (i = 0; i < lenData; i++) {
+      //alert("i is:" + i);
+      let paddingNum = 0;
+      for (a = 0; a < arrayLen; a++) { ///////////////////// draws bars inside chart area
+        //alert("a is: " + a)
+        elemBar = ".bar-"+ a + i;
+        //alert(elemBar);
+        $(elemBar).css({
+          "grid-area" : function () {
+            let output =   "1/" + (i+1) + "/7/" + (i+2);
+            //alert(output);
+            return output;
+          },
+          "background-color" : function () {
+            return dOpt.barColor[a];
+          },
+          "padding-bottom" : function () {
+            return paddingNum + "px";
+          },
+          "height": function () {
+            let fillPer;
+            let pxFill;
+            fillPer = data[a][i]/(roundTop + ((roundTop/5)));
+            //alert("fill per is: " +fillPer)
+            pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
+            //alert(paddingNum);
+            paddingNum = pxFill + paddingNum;
+
+            //alert("pxfill is:" + pxFill);
+            return pxFill + "px";
+          },
+          "place-self" : "end stretch",
+          "z-index" : function () {
+              return 100-a;
+          }
+        });
+      }
+      padding = "0px"
     }
   } ///////////////////////////////////////////////////////////
   $(elem).css({
