@@ -20,6 +20,10 @@
   }
   //alert(data);
   let arrayLen = data.length;
+  if (dOpt.type === "bar" && arrayLen > 1) {
+    alert("Please specify correct barchart type under options");
+  }
+
   let lenData = data[0].length;
   alert("lenData is:" + lenData);
   alert("arrayLen is: " + arrayLen);
@@ -149,7 +153,13 @@
     "background-color": "lightgrey",
   });
   $(".title").css({
-    "grid-area" : "1/3/2/4"
+    "grid-area" : "1/3/2/4",
+    "font-family" : function () {
+      return dOpt.titleFont;
+    },
+    "color" : function () {
+      return dOpt.titleColor;
+    }
   });
   $(".x-axis-title").css({
     "grid-area" : "4/3/5/4"
