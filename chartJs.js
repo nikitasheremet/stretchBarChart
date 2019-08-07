@@ -11,14 +11,35 @@
     barColor: "grey",
     lableColor: "black",
     barSpacing: "20px",
-    xAxisLable: ["toronto", "ottawa", "montreal", "kingston", "vancouver", "new york"]
+    xAxisLable: ["toronto", "ottawa", "montreal", "kingston", "vancouver", "new york"],
+    type: "stacked"
   };
   // updates default options with options provided by user
   for (let property in options) {
       dOpt[property] = options[property];
   }
-  let lenData = data.length;
-  let dataMax = Math.max(...data);
+  //alert(data);
+  let arrayLen = data.length;
+  let lenData = data[0].length;
+  //alert("lenData is:" + lenData);
+  //alert("arrayLen is: " + arrayLen);
+  let dataMax;
+  
+  if (dOpt.type === "stacked") {
+    let maxArray = [];
+    for (i = 0; i < lenData; i++) {
+      let number = 0;
+      for (a = 0; a < arrayLen; a++) {
+        number = number + data[a][i];
+      }
+      maxArray.push(number);
+    }
+    //alert(maxArray);
+    dataMax = Math.max(...maxArray);
+  } else {
+  dataMax = Math.max(...data[0]);
+  }
+  //alert("max is: " + dataMax);
   
   let openDiv = "<div class = ";
   let closeDiv = "</div>";
@@ -35,7 +56,7 @@
     case dataMax > 0:
       roundTop = Math.ceil(dataMax);
   }
-  alert("round top: " + roundTop);
+  //alert("round top: " + roundTop);
   
   //functiion creates 6 divs within parent div matching 'elem' in order to organize titles and graphing area
   $(elem).append(function defineGraphArea(){
@@ -54,7 +75,10 @@
     $(".graph-area").append(function () { //creates bars and axis lines
       let output = "";
       for (i = 0; i < lenData; i++) {
-        output += openDiv + "bar-" + i + ">" + data[i] + closeDiv;
+        output += openDiv + "bar-" + i + ">" + data[0][i] + closeDiv;
+      }
+      if (dOpt.type === "stacked") {
+        
       }
      // alert(output);
       for (i = 1; i <= 5; i++) {
@@ -87,7 +111,7 @@
         "height": function () {
           let fillPer;
           let pxFill;
-          fillPer = data[i]/(roundTop + ((roundTop/5)));
+          fillPer = data[0][i]/(roundTop + ((roundTop/5)));
           pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
           return pxFill + "px";
         },
@@ -124,7 +148,7 @@
   $(".x-axis").css({
     "grid-area" : "3/3/4/4",
     "display" : "grid",
-    "grid-template-columns" : function() {
+    "grid-template-columns" : function() {// seperate the x-axis into segments in accordance with bar charts
       let output = "repeat(" + lenData + ",1fr)";
       return output;
     },
@@ -134,7 +158,7 @@
     "padding-right" : "10px",
     "text-align" : "center"
   });
-  $(".x-axis").append(function() {
+  $(".x-axis").append(function() {//add values to x axis
     let output = "";
     for (i = 0; i < lenData; i++) {
       output += openDiv + "x-axis-lable-" + i + ">" + dOpt.xAxisLable[i] + closeDiv;
