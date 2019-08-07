@@ -10,7 +10,8 @@
     valuePosition: "middle",
     barColor: "grey",
     lableColor: "black",
-    barSpacing: "20px"
+    barSpacing: "20px",
+    xAxisLable: ["toronto", "ottawa", "montreal", "kingston", "vancouver", "new york"]
   };
   // updates default options with options provided by user
   for (let property in options) {
@@ -121,7 +122,16 @@
     "text-align" : "center"
   });
   $(".x-axis").css({
-    "grid-area" : "3/3/4/4"
+    "grid-area" : "3/3/4/4",
+    "display" : "grid",
+    "grid-template-columns" : function() {
+      let output = "repeat(" + lenData + ",1fr)";
+      return output;
+    },
+    "grid-template-rows" : "1fr",
+    "grid-column-gap" : "20px",
+    "padding-left" : "10px",
+    "padding-right" : "10px"
   });
   $(".y-axis").css({
     "grid-area" : "2/2/3/3",
