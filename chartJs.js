@@ -131,7 +131,15 @@
     "grid-template-rows" : "1fr",
     "grid-column-gap" : "20px",
     "padding-left" : "10px",
-    "padding-right" : "10px"
+    "padding-right" : "10px",
+    "text-align" : "center"
+  });
+  $(".x-axis").append(function() {
+    let output = "";
+    for (i = 0; i < lenData; i++) {
+      output += openDiv + "x-axis-lable-" + i + ">" + dOpt.xAxisLable[i] + closeDiv;
+    }
+    return output;
   });
   $(".y-axis").css({
     "grid-area" : "2/2/3/3",
