@@ -80,7 +80,7 @@
       let output = "";
       for (i = 0; i < arrayLen; i++) {
         for (a = 0; a < lenData; a++) {
-          output += openDiv + "bar-" + i + a + ">" + data[i][a] + closeDiv;
+          output += openDiv + "bar-" + i + a + ">" + "<p class = label>" + data[i][a] + "</p>" + closeDiv;
         }
       }
      // alert(output);
@@ -101,11 +101,20 @@
         "border-bottom" : "dashed"
       })
     }
-    for (i = 0; i < lenData; i++) {
+    for (i = 0; i < lenData; i++) {///controls which column
       //alert("i is:" + i);
       let paddingNum = 0;
-      for (a = 0; a < arrayLen; a++) { ///////////////////// draws bars inside chart area
+      for (a = 0; a < arrayLen; a++) { //controls which layer
         //alert("a is: " + a)
+        let fillPer;
+        let pxFill;
+
+        fillPer = data[a][i]/(roundTop + ((roundTop/5)));
+        //alert("fill per is: " +fillPer)
+        pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
+        //alert(paddingNum);
+        
+        //alert("pxfill is:" + pxFill);
         elemBar = ".bar-"+ a + i;
         //alert(elemBar);
         $(elemBar).css({
@@ -121,22 +130,29 @@
             return paddingNum + "px";
           },
           "height": function () {
-            let fillPer;
-            let pxFill;
-            fillPer = data[a][i]/(roundTop + ((roundTop/5)));
-            //alert("fill per is: " +fillPer)
-            pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
-            //alert(paddingNum);
-            paddingNum = pxFill + paddingNum;
-
-            //alert("pxfill is:" + pxFill);
             return pxFill + "px";
           },
           "place-self" : "end stretch",
           "z-index" : function () {
               return 100-a;
           }
+          //"text-align" : "center"
         });
+        elemBar += " .label";
+        //alert("elemBar is: " + elemBar);
+        $(elemBar).css({
+          "visibility" : function () {
+            //alert("pxfill is: " + pxFill);
+            if (pxFill < 14) {
+              return "hidden";
+            }
+          },
+          "margin-top" : "unset",
+          "display" : "flex",
+          "align-content" : "center"
+
+        })
+        paddingNum = pxFill + paddingNum;
       }
       padding = "0px"
     }
@@ -150,7 +166,7 @@
     "grid-template-rows": "50px auto 50px 50px"
   });
   $(".title, .x-axis-title, .y-axis-title, .x-axis, .y-axis").css({
-    "background-color": "lightgrey",
+    "background-color": "white",
   });
   $(".title").css({
     "grid-area" : "1/3/2/4",
@@ -159,10 +175,13 @@
     },
     "color" : function () {
       return dOpt.titleColor;
-    }
+    },
+    "text-align" : "center",
+    "padding-top" : "25px"
   });
   $(".x-axis-title").css({
-    "grid-area" : "4/3/5/4"
+    "grid-area" : "4/3/5/4",
+    "text-align" : "center"
   });
   $(".y-axis-title").css({
     "grid-area" : "2/1/3/2",
@@ -223,13 +242,20 @@
       return output;
     },
     "grid-template-rows": "repeat(6,1fr)",
-    "grid-column-gap": "20px",
+    "grid-column-gap": function () {
+      return dOpt.barSpacing;
+    },
     "padding-left":"10px",
     "padding-right": "10px",
     "position":"relative"
   });
-
+ 
+  
   createVisual();
+
+  $(".lable").css({
+    "margin-block-start" : "unset"
+  })
   
 
   
