@@ -135,8 +135,10 @@
           "place-self" : "end stretch",
           "z-index" : function () {
               return 100-a;
-          }
-          //"text-align" : "center"
+          },
+          "display" : "flex",
+          "align-items" : "center",
+          "justify-content" : "center"
         });
         elemBar += " .label";
         //alert("elemBar is: " + elemBar);
@@ -148,8 +150,8 @@
             }
           },
           "margin-top" : "unset",
-          "display" : "flex",
-          "align-content" : "center"
+          "margin-bottom" : "unset"
+          
 
         })
         paddingNum = pxFill + paddingNum;
