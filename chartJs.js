@@ -23,41 +23,45 @@
 
   let lenData;  // sets global
   let dataMax;  // sets global
-  let arrayLen; // sets global      
+  let arrayLen; // sets global 
+  let openDiv = "<div class = "; //global var for ease of creating html code with jQuery
+  let closeDiv = "</div>";       //^     
+
+  /* Checks to see if data provided is nested --- if condition is false then not nested ---
+  (if nested then it must be a stacked bar chart). For calc of bar heights 2 lengths 
+  are needed: len of array, and len of data within nested arrays. If not nested the length 
+  of array is hard coded to 1. If array is nested length of numerical values 
+  (translates to # of bars) is taken from the first group of values as all others will 
+  be the same length */
 
   if (data[0].length) {
-    arrayLen = data.length;
+    arrayLen = data.length; 
     lenData = data[0].length;
-
-    let maxArray = [];
     
+    /* Loops through nested values and adds the first value of each array,
+    then all second values and so on. Builds an array from these new numbers
+    and finds the max number. This number will be used to calculate the 
+    y index ticks, and the height of the bars */
+
+    let maxArray = []; // Defines a new array that will be used to find max number
+
     for (i = 0; i < lenData; i++) {
-      let number = 0;
+      let newNum = 0;
       for (a = 0; a < arrayLen; a++) {
-        number = number + data[a][i];
+        newNum += data[a][i];
       }
-      maxArray.push(number);
+      maxArray.push(newNum);
     }
-    //alert("maxArray is: " + maxArray);
-    dataMax = Math.max(...maxArray);
+
+    dataMax = Math.max(...maxArray); // Calculated "Max Number"
     
   } else {
     arrayLen = 1;
     lenData = data.length;
-    dataMax = Math.max(...data);
-    data = new Array(data);
-    dOpt.barColor = new Array(dOpt.barColor);
-    
+    dataMax = Math.max(...data); //Calculated "Max Number"
   }
 
-  //alert("lenData is:" + lenData);
-  //alert("arrayLen is: " + arrayLen);
-  //alert("max is: " + dataMax);
-  
-  let openDiv = "<div class = ";
-  let closeDiv = "</div>";
-
-  //calculates  top limit of chart
+  ///// Calculates  top limit of chart - used for Y-Axis ticks and bar height calc //////
   let roundTop;
   switch (true) {
     case dataMax > 80:
@@ -69,11 +73,17 @@
     case dataMax > 0:
       roundTop = Math.ceil(dataMax);
   }
+
   //alert("round top: " + roundTop);
+  //alert("maxArray is: " + maxArray);
+  //alert("lenData is:" + lenData);
+  //alert("arrayLen is: " + arrayLen);
+  //alert("max is: " + dataMax);
   
-  
-  
-  //functiion creates 6 divs within parent div matching 'elem' in order to organize titles and graphing area
+  /* Append creates Divs with the following classes: title, x-axis-title, x-axis,
+  y-axis-title, y-axis, and graph-area. These Divs are appended to Div with ID 
+  matching provided parameter "elem" */
+
   $(elem).append(function defineGraphArea(){
     let titleHtml = openDiv + "title>" + dOpt.title + closeDiv;
     let xTitleHtml = openDiv + "x-axis-title>" + dOpt.xAxisTitle + closeDiv;
@@ -84,21 +94,136 @@
     
     return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml;
   });
+
+  $(elem).css({
+    "width": "80%",
+    "height": "600px",
+    "margin": "auto",
+    "display":"grid",
+    "grid-template-columns": "50px 50px auto 50px",
+    "grid-template-rows": "50px auto 50px 50px"
+  });
+
+  $(".title").css({
+    "grid-area" : "1/3/2/4",
+    "font-family" : function () {
+      return dOpt.titleFont;
+    },
+    "color" : function () {
+      return dOpt.titleColor;
+    },
+    "font-siize" : function () {
+      return dOpt.titleFontSize;
+    },
+    "text-align" : "center",
+    "padding-top" : "25px",
+    "font-weight" : "bold"
+  });
+
+  $(".x-axis-title").css({
+    "grid-area" : "4/3/5/4",
+    "text-align" : "center",
+    "font-weight" : "bold"
+  });
+
+  $(".y-axis-title").css({
+    "grid-area" : "2/1/3/2",
+    "writing-mode": "vertical-lr",
+    "transform" : "rotate(180deg)",
+    "text-align" : "center",
+    "font-weight" : "bold"
+  });
+
+  $(".x-axis").css({
+    "grid-area" : "3/3/4/4",
+    "display" : "grid",
+    "grid-template-columns" : function() {// seperate the x-axis into segments in accordance with bar charts
+      let output = "repeat(" + lenData + ",1fr)";
+      return output;
+    },
+    "grid-template-rows" : "1fr",
+    "grid-column-gap" : "20px",
+    "padding-left" : "10px",
+    "padding-right" : "10px"
+  });
+
+  $(".x-axis").append(function() {//add values to x axis
+    let output = "";
+    for (i = 0; i < lenData; i++) {
+      output += openDiv + "x-axis-label-" + i + ">" + dOpt.xAxisLabel[i] + closeDiv;
+    }
+    return output;
+  });
+  for (i = 0; i < lenData; i++) {
+    elemXAxis = ".x-axis-label-" + i;
+    //alert(elemXAxis);
+    $(elemXAxis).css({
+      "display" : "flex",
+      "align-items" : "center",
+      "justify-content" : "center"
+    })
+  }
+
+  $(".y-axis").css({
+    "grid-area" : "2/2/3/3",
+    "display" : "grid",
+    "grid-template-columns" : "1fr",
+    "grid-template-rows" : "1fr 2fr 2fr 2fr 2fr 2fr 1fr"
+  });
+
+  $(".y-axis").append(function () {///// creates divs for y axis values
+    output = "";
+    for (i = 1; i <= 5; i++) {
+      output += openDiv + "y-axis-" + i + ">" + ((roundTop/5)*i).toFixed(1) + closeDiv;
+      //alert("y axis output: " + output);
+    }
+    return output;
+  });
+
+  for (i = 1; i <= 5; i++) { //// positions y axis values along axis
+    elemYAxis = ".y-axis-" + i;
+    $(elemYAxis).css({
+      "grid-area" : function () {
+        let output = (-i-1) + "/1/" + (-i-2) + "/2";
+        return output;
+      },
+      "display" : "flex",
+      "align-items" : "center",
+      "justify-content" : "center"
+    })
+  }
+
+  $(".graph-area").css({
+    "grid-area" : "2/3/3/4",
+    "background-color": "pink",
+    "display": "grid",
+    "grid-template-columns": function () { ///// divides graph area into columns
+      let output = "repeat(" + lenData + ",1fr)";
+      return output;
+    },
+    "grid-template-rows": "repeat(6,1fr)",
+    "grid-column-gap": function () {
+      return dOpt.barSpacing;
+    },
+    "padding-left":"10px",
+    "padding-right": "10px",
+    "position":"relative"
+  });
   
-  function createVisual() { /////////////// Creates visuals in graph area //////////////
-      
-    $(".graph-area").append(function () { //creates bars and axis lines
+  /////////////// Creates visuals in graph area //////////////
+  function createVisual() { 
+    
+    // Creates bars and axis lines
+    $(".graph-area").append(function () {
       let output = "";
       for (i = 0; i < arrayLen; i++) {
         for (a = 0; a < lenData; a++) {
           output += openDiv + "bar-" + i + a + ">" + "<p class = label>" + data[i][a] + "</p>" + closeDiv;
         }
       }
-     // alert(output);
       for (i = 1; i <= 5; i++) {
         output += openDiv + "axis-line-" + i + ">" + closeDiv;
       }
-     // alert(output);
       return output;
     });
     
@@ -182,117 +307,6 @@
       padding = "0px"
     }
   } ///////////////////////////////////////////////////////////
-  $(elem).css({
-    "width": "80%",
-    "height": "600px",
-    "margin": "auto",
-    "display":"grid",
-    "grid-template-columns": "50px 50px auto 50px",
-    "grid-template-rows": "50px auto 50px 50px"
-  });
-  $(".title, .x-axis-title, .y-axis-title, .x-axis, .y-axis").css({
-    "background-color": "white",
-  });
-  $(".title").css({
-    "grid-area" : "1/3/2/4",
-    "font-family" : function () {
-      return dOpt.titleFont;
-    },
-    "color" : function () {
-      return dOpt.titleColor;
-    },
-    "font-siize" : function () {
-      return dOpt.titleFontSize;
-    },
-    "text-align" : "center",
-    "padding-top" : "25px",
-    "font-weight" : "bold"
-  });
-  $(".x-axis-title").css({
-    "grid-area" : "4/3/5/4",
-    "text-align" : "center",
-    "font-weight" : "bold"
-  });
-  $(".y-axis-title").css({
-    "grid-area" : "2/1/3/2",
-    "writing-mode": "vertical-lr",
-    "transform" : "rotate(180deg)",
-    "text-align" : "center",
-    "font-weight" : "bold"
-  });
-  $(".x-axis").css({
-    "grid-area" : "3/3/4/4",
-    "display" : "grid",
-    "grid-template-columns" : function() {// seperate the x-axis into segments in accordance with bar charts
-      let output = "repeat(" + lenData + ",1fr)";
-      return output;
-    },
-    "grid-template-rows" : "1fr",
-    "grid-column-gap" : "20px",
-    "padding-left" : "10px",
-    "padding-right" : "10px"
-    
-  });
-  $(".x-axis").append(function() {//add values to x axis
-    let output = "";
-    for (i = 0; i < lenData; i++) {
-      output += openDiv + "x-axis-label-" + i + ">" + dOpt.xAxisLabel[i] + closeDiv;
-    }
-    return output;
-  
-  });
-  for (i = 0; i < lenData; i++) {
-    elemXAxis = ".x-axis-label-" + i;
-    //alert(elemXAxis);
-    $(elemXAxis).css({
-      "display" : "flex",
-      "align-items" : "center",
-      "justify-content" : "center"
-    })
-  }
-  $(".y-axis").css({
-    "grid-area" : "2/2/3/3",
-    "display" : "grid",
-    "grid-template-columns" : "1fr",
-    "grid-template-rows" : "1fr 2fr 2fr 2fr 2fr 2fr 1fr"
-  });
-  $(".y-axis").append(function () {///// creates divs for y axis values
-    output = "";
-    for (i = 1; i <= 5; i++) {
-      output += openDiv + "y-axis-" + i + ">" + ((roundTop/5)*i).toFixed(1) + closeDiv;
-      //alert("y axis output: " + output);
-    }
-    return output;
-  })
-  for (i = 1; i <= 5; i++) { //// positions y axis values along axis
-    elemYAxis = ".y-axis-" + i;
-    $(elemYAxis).css({
-      "grid-area" : function () {
-        let output = (-i-1) + "/1/" + (-i-2) + "/2";
-        return output;
-      },
-      "display" : "flex",
-      "align-items" : "center",
-      "justify-content" : "center"
-    })
-  }
-  $(".graph-area").css({
-    "grid-area" : "2/3/3/4",
-    "background-color": "pink",
-    "display": "grid",
-    "grid-template-columns": function () { ///// divides graph area into columns
-      let output = "repeat(" + lenData + ",1fr)";
-      return output;
-    },
-    "grid-template-rows": "repeat(6,1fr)",
-    "grid-column-gap": function () {
-      return dOpt.barSpacing;
-    },
-    "padding-left":"10px",
-    "padding-right": "10px",
-    "position":"relative"
-  });
- 
   createVisual();
 
 
