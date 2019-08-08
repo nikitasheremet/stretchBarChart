@@ -5,9 +5,10 @@
     title: "title",
     titleFont: "arial",
     titleColor: "black",
+    titleFontSize: "14px",
     xAxisTitle: "x-axis-title",
     yAxisTitle: "y-axis-title",
-    valuePosition: "middle",
+    valuePosition: "center",
     barColor: ["grey","lightgreen","lightblue", "purple"],
     lableColor: "black",
     barSpacing: "20px",
@@ -137,7 +138,20 @@
               return 100-a;
           },
           "display" : "flex",
-          "align-items" : "center",
+          "align-items" : function () {
+            let output = "";
+            switch (dOpt.valuePosition) {
+              case "center":
+                output = "center";
+                break;
+              case "top":
+                output = "flex-start";
+                break;
+              case "bottom":
+                output = "flex-end";
+            }
+            return output;
+          },
           "justify-content" : "center"
         });
         elemBar += " .label";
@@ -151,8 +165,6 @@
           },
           "margin-top" : "unset",
           "margin-bottom" : "unset"
-          
-
         })
         paddingNum = pxFill + paddingNum;
       }
@@ -177,6 +189,9 @@
     },
     "color" : function () {
       return dOpt.titleColor;
+    },
+    "font-siize" : function () {
+      return dOpt.titleFontSize;
     },
     "text-align" : "center",
     "padding-top" : "25px"
