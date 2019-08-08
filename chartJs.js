@@ -1,40 +1,35 @@
 
  function drawBarChart(data, options, elem) {
-  //defines default options
+  /////Defines default options /////
   let dOpt = {
-    title: "title",
-    titleFont: "arial",
+    title: "title",         
+    titleFont: "arial",          
     titleColor: "black",
     titleFontSize: "14px",
     xAxisTitle: "x-axis-title",
     yAxisTitle: "y-axis-title",
-    valuePosition: "center",
+    valuePosition: "center",    //positions numerical values in barchart
     barColor: [],
-    labelColor: "black",
-    barSpacing: "20px",
-    xAxisLabel: []
+    labelColor: "black",        //sets color of numerical values
+    barSpacing: "20px",         
+    xAxisLabel: []              //sets text of lable on x-axis
   };
-  // updates default options with options provided by user
-  for (let property in options) {
-      dOpt[property] = options[property];
-  }
-  let arrayLen = data.length;
-  let lenData;
-  let dataMax;
-  //alert(data);
-  let dataConv = new Array (data);
 
-  if (arrayLen === dataConv.length) {
-    arrayLen = dataConv.length;
-    lenData = data.length;
-    dataMax = Math.max(...data);
-    data = dataConv;
-    dOpt.barColor = new Array(dOpt.barColor);
-  } else {
- /////////////////////////////////////////////////////////
+  
+
+  // Updates Default Options (dOpt) with "options" provided by user //
+
+  for (let property in options) {
+      dOpt[property] = options[property];   
+  }
+
+  let lenData;  //  sets global lenData - to be calc below          
+  let dataMax;  //  sets global dataMax - to be calc below
+  let arrayLen;                
+
+  if (data[0].length) {
     arrayLen = data.length;
     lenData = data[0].length;
-    dataConv = data;
 
     let maxArray = [];
     
@@ -47,6 +42,14 @@
     }
     //alert("maxArray is: " + maxArray);
     dataMax = Math.max(...maxArray);
+    
+  } else {
+    arrayLen = 1;
+    lenData = data.length;
+    dataMax = Math.max(...data);
+    data = new Array(data);
+    dOpt.barColor = new Array(dOpt.barColor);
+    
   }
 
   //alert("lenData is:" + lenData);
@@ -69,6 +72,8 @@
       roundTop = Math.ceil(dataMax);
   }
   //alert("round top: " + roundTop);
+  
+  
   
   //functiion creates 6 divs within parent div matching 'elem' in order to organize titles and graphing area
   $(elem).append(function defineGraphArea(){
@@ -240,7 +245,7 @@
   });
   for (i = 0; i < lenData; i++) {
     elemXAxis = ".x-axis-label-" + i;
-    alert(elemXAxis);
+    //alert(elemXAxis);
     $(elemXAxis).css({
       "display" : "flex",
       "align-items" : "center",
@@ -290,8 +295,8 @@
     "position":"relative"
   });
  
-  
   createVisual();
+
 
   
 
