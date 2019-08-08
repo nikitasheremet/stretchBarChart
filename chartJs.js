@@ -24,14 +24,14 @@
   let dataMax;
   //alert(data);
   
-  let dataConv = [];
-  dataConv.push(data);
+  let dataConv = new Array (data);
 
   if (dataConv.length === 1) {
     arrayLen = dataConv.length;
     lenData = data.length;
     dataMax = Math.max(...data);
     data = dataConv;
+    dOpt.barColor = new Array(dOpt.barColor);
   } else {
     arrayLen = data.length;
     lenData = data[0].length;
@@ -133,7 +133,7 @@
             return output;
           },
           "background-color" : function () {
-            return dOpt.barColor[a];
+            return dOpt.barColor[a][i];
           },
           "padding-bottom" : function () {
             return paddingNum + "px";
