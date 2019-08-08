@@ -1,31 +1,29 @@
 
  function drawBarChart(data, options, elem) {
-  /////Defines default options /////
+  ///// Defines default options /////
   let dOpt = {
-    title: "title",         
-    titleFont: "arial",          
+    title: "title",
+    titleFont: "arial",
     titleColor: "black",
     titleFontSize: "14px",
     xAxisTitle: "x-axis-title",
     yAxisTitle: "y-axis-title",
-    valuePosition: "center",    //positions numerical values in barchart
+    valuePosition: "center",    // Positions numerical values in barchart
     barColor: [],
-    labelColor: "black",        //sets color of numerical values
-    barSpacing: "20px",         
-    xAxisLabel: []              //sets text of lable on x-axis
+    labelColor: "black",        // Sets color of numerical values
+    barSpacing: "20px",
+    xAxisLabel: []              // Sets text of lable on x-axis
   };
-
-  
 
   // Updates Default Options (dOpt) with "options" provided by user //
 
   for (let property in options) {
-      dOpt[property] = options[property];   
+      dOpt[property] = options[property];
   }
 
-  let lenData;  //  sets global lenData - to be calc below          
-  let dataMax;  //  sets global dataMax - to be calc below
-  let arrayLen;                
+  let lenData;  // sets global
+  let dataMax;  // sets global
+  let arrayLen; // sets global      
 
   if (data[0].length) {
     arrayLen = data.length;
