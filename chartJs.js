@@ -19,19 +19,26 @@
   for (let property in options) {
       dOpt[property] = options[property];
   }
-  //alert(data);
-  let arrayLen = data.length;
-  if (dOpt.type === "bar" && arrayLen > 1) {
-    alert("Please specify correct barchart type under options");
-  }
-
-  let lenData = data[0].length;
-  alert("lenData is:" + lenData);
-  alert("arrayLen is: " + arrayLen);
+  let arrayLen;
+  let lenData
   let dataMax;
+  //alert(data);
   
-  if (dOpt.type === "stacked") {
+  let dataConv = [];
+  dataConv.push(data);
+
+  if (dataConv.length === 1) {
+    arrayLen = dataConv.length;
+    lenData = data.length;
+    dataMax = Math.max(...data);
+    data = dataConv;
+  } else {
+    arrayLen = data.length;
+    lenData = data[0].length;
+    dataConv = data;
+
     let maxArray = [];
+    
     for (i = 0; i < lenData; i++) {
       let number = 0;
       for (a = 0; a < arrayLen; a++) {
@@ -39,12 +46,13 @@
       }
       maxArray.push(number);
     }
-    //alert(maxArray);
+    alert("maxArray is: " + maxArray);
     dataMax = Math.max(...maxArray);
-  } else {
-  dataMax = Math.max(...data[0]);
   }
-  //alert("max is: " + dataMax);
+
+  alert("lenData is:" + lenData);
+  alert("arrayLen is: " + arrayLen);
+  alert("max is: " + dataMax);
   
   let openDiv = "<div class = ";
   let closeDiv = "</div>";
@@ -61,7 +69,7 @@
     case dataMax > 0:
       roundTop = Math.ceil(dataMax);
   }
-  //alert("round top: " + roundTop);
+  alert("round top: " + roundTop);
   
   //functiion creates 6 divs within parent div matching 'elem' in order to organize titles and graphing area
   $(elem).append(function defineGraphArea(){
@@ -270,9 +278,6 @@
   
   createVisual();
 
-  $(".lable").css({
-    "margin-block-start" : "unset"
-  })
   
 
   
