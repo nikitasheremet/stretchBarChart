@@ -16,7 +16,7 @@
     legend: []
   };
 
-  let colors = ["lightsteelblue", "skyblue", "lighblue", "cyan", "palegreen", "mediumspringgreen", "yellow", "gold", "lightyellow", "indianred", "burlywood", "sandybrown", "coral", "lightsalmon", "orange", "lightpink", "violet", "plum", "thistle", "bisque","peachpuff","lavender","mistyrose"];
+  let colors = ["lightsteelblue","navajowhite","rosybrown", "lightcyan", "cornflowerblue", "lightslategrey", "peru", "antiquewhite", "skyblue","olive", "lightblue","lime", "fuchsia", "cyan", "palegreen", "mediumspringgreen", "yellow", "gold", "lightyellow", "indianred", "burlywood", "sandybrown", "coral", "lightsalmon", "orange", "lightpink", "violet", "plum", "thistle", "bisque","peachpuff","lavender","mistyrose"];
 
   // Updates Default Options (dOpt) with "options" provided by user //
 
@@ -28,11 +28,13 @@
   let dataMax;  // sets global
   let arrayLen; // sets global 
   let roundTop; // sets global
+  let legend = false; // sets global
   let openDiv = "<div class = "; //global var for ease of creating html code with jQuery
   let closeDiv = "</div>";       //^    
+  
 
   function checkStacked() {
-  
+    
     /* Checks to see if data provided is nested --- if condition is false then not nested ---
     (if nested then it must be a stacked bar chart). For calc of bar heights 2 lengths 
     are needed: len of array, and len of data within nested arrays. If not nested the length 
@@ -107,7 +109,7 @@
     }
   }
 
-  function checkTop() {
+  function calcTop() {
     ///// Calculates  top limit of chart - used for Y-Axis ticks and bar height calc //////
     
     switch (true) {
@@ -121,13 +123,7 @@
         roundTop = Math.ceil(dataMax);
     }
   }
-
-  //alert("round top: " + roundTop);
-  //alert("maxArray is: " + maxArray);
-  //alert("lenData is:" + lenData);
-  //alert("arrayLen is: " + arrayLen);
-  //alert("max is: " + dataMax);
-
+ 
   /* Function defines CSS and creates DIVs to plan out graph area: title, x-axis,
   y-axis, legend (if applicable) and graph area */
   
@@ -184,6 +180,7 @@
     function makeLegend() {
 
       /* If stacked bar chart Legend is created. */
+
       if (legend) {
         $(".legend").css({
           "grid-area" : "2/4/3/5",
@@ -193,7 +190,7 @@
           "align-items" : "center",
           "justify-content" : "center"
         });
-        
+
         $(".legend").append(function () {
           let legendTitle = "<p><strong>Legend</strong></p>";
           let output = "";
@@ -480,10 +477,18 @@
     } /// End of loop cycling through columns
   } /// End of function createVisual
   
+
   checkStacked();
-  checkTop();
+  calcTop();
   defineGraphAreas();
   createVisual();
 
+  /*
+  alert("round top: " + roundTop);
+  alert("maxArray is: " + maxArray);
+  alert("lenData is:" + lenData);
+  alert("arrayLen is: " + arrayLen);
+  alert("max is: " + dataMax);
+  */
 
 }
