@@ -12,8 +12,10 @@
     barColor: [],
     labelColor: "black",        // Sets color of numerical values
     barSpacing: "20px",
-    xAxisLabel: []              // Sets text of lable on x-axis
+    xAxisLabel: []            // Sets text of lable on x-axis
   };
+
+  let colors = ["lightsteelblue", "skyblue", "lighblue", "cyan", "palegreen", "mediumspringgreen", "yellow", "gold", "lightyellow", "indianred", "burlywood", "sandybrown", "coral", "lightsalmon", "orange", "lightpink", "violet", "plum", "thistle", "bisque","peachpuff","lavender","mistyrose"];
 
   // Updates Default Options (dOpt) with "options" provided by user //
 
@@ -37,13 +39,36 @@
   if (data[0].length) {
     arrayLen = data.length; 
     lenData = data[0].length;
+
+    /* Assigns random color to each layer of stacked bar chart if barColor not provided,
+    if barColor is provided then converts the data to a nested array to allow the for 
+    loop below to properly duplicate values*/
+    
+    if (dOpt.barColor.length === 0) {
+      for (i = 0; i < arrayLen; i++) {
+        dOpt.barColor.push(new Array(colors[Math.floor(Math.random() * (colors.length-1))]));
+      }
+    } else {
+      for (i = 0; i < dOpt.barColor.length; i++) {
+        dOpt.barColor[i] = new Array(dOpt.barColor[i]);
+      }
+    }
+
+    /* Duplicates the color provided to match the number of values in array to allow formula
+    to read through dOpt.barColor correctly */
+
+    for (i = 0; i < arrayLen; i++) {
+      for (a = 1; a < lenData; a++) {
+        dOpt.barColor[i][a] = dOpt.barColor[i][0];
+      }
+    }
     
     /* Loops through nested values and adds the first value of each array,
     then all second values and so on. Builds an array from these new numbers
     and finds the max number. This number will be used to calculate the 
     y index ticks, and the height of the bars */
 
-    let maxArray = []; // Defines a new array that will be used to find max number
+    let maxArray = []; // Defines arbitrary new array that will be used to find max number
 
     for (i = 0; i < lenData; i++) {
       let newNum = 0;
@@ -59,6 +84,14 @@
     arrayLen = 1;
     lenData = data.length;
     dataMax = Math.max(...data); //Calculated "Max Number"
+    data = new Array(data); // Makes data array nested
+    // Assigns random color from array "colors" ////
+    if (dOpt.barColor.length === 0) {
+      for (i = 0; i < lenData; i++) {
+        dOpt.barColor[i] = colors[Math.floor(Math.random() * (colors.length-1))];
+      }
+    }
+    dOpt.barColor = new Array(dOpt.barColor); // Makes the barColor property a nested array
   }
 
   ///// Calculates  top limit of chart - used for Y-Axis ticks and bar height calc //////
@@ -76,8 +109,8 @@
 
   //alert("round top: " + roundTop);
   //alert("maxArray is: " + maxArray);
-  //alert("lenData is:" + lenData);
-  //alert("arrayLen is: " + arrayLen);
+  alert("lenData is:" + lenData);
+  alert("arrayLen is: " + arrayLen);
   //alert("max is: " + dataMax);
   
   /* Append creates Divs with the following classes: title, x-axis-title, x-axis,
@@ -99,7 +132,7 @@
   CSS Grid. Sets heigth of entire Div and Width/Margin */
 
   $(elem).css({
-    "width": "80%",
+    "width": "50%",
     "height": "600px",
     "margin": "auto",
     "display":"grid",
@@ -202,7 +235,7 @@
 
   $(".graph-area").css({
     "grid-area" : "2/3/3/4",
-    "background-color": "#d1d1d1",
+    "background-color": "#e1e1e1",
     "display": "grid",
     "grid-template-columns": function () { ///// divides graph area into columns
       let output = "repeat(" + lenData + ",1fr)";
@@ -309,7 +342,10 @@
           },
           "margin-top" : "unset",
           "margin-bottom" : "unset",
-          "font-weight" : "bold"
+          "font-weight" : "bold",
+          "color" : function () {
+            return dOpt.labelColor;
+          }
         })
         paddingNum = pxFill + paddingNum;
       }
