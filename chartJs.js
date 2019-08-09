@@ -12,7 +12,8 @@
     barColor: [],
     labelColor: "black",        // Sets color of numerical values
     barSpacing: "20px",
-    xAxisLabel: []            // Sets text of lable on x-axis
+    xAxisLabel: [],             // Sets text of lable on x-axis
+    legend: []
   };
 
   let colors = ["lightsteelblue", "skyblue", "lighblue", "cyan", "palegreen", "mediumspringgreen", "yellow", "gold", "lightyellow", "indianred", "burlywood", "sandybrown", "coral", "lightsalmon", "orange", "lightpink", "violet", "plum", "thistle", "bisque","peachpuff","lavender","mistyrose"];
@@ -39,6 +40,13 @@
   if (data[0].length) {
     arrayLen = data.length; 
     lenData = data[0].length;
+    legend = true;
+
+    if (dOpt.legend.length === 0) {
+      for (i = 0; i < arrayLen; i++) {
+        dOpt.legend[i] = "data-" + (i+1);
+      }
+    }
 
     /* Assigns random color to each layer of stacked bar chart if barColor not provided,
     if barColor is provided then converts the data to a nested array to allow the for 
@@ -114,7 +122,7 @@
   //alert("max is: " + dataMax);
   
   /* Append creates Divs with the following classes: title, x-axis-title, x-axis,
-  y-axis-title, y-axis, and graph-area. These Divs are appended to Div with ID 
+  y-axis-title, y-axis, graph-area and legend. These Divs are appended to Div with ID 
   matching provided parameter "elem" */
 
   $(elem).append(function defineGraphArea(){
@@ -124,8 +132,9 @@
     let graphHtml = openDiv + "graph-area>" + closeDiv;
     let xAxisHtml = openDiv + "x-axis>" + closeDiv;
     let yAxisHtml = openDiv + "y-axis>" + closeDiv;
+    let legendHtml = openDiv + "legend>" + closeDiv;
     
-    return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml;
+    return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml + legendHtml;
   });
   
   /*Creates CSS for Div with ID mathing "elem". Divides the Bar Chart area into a 
@@ -136,7 +145,7 @@
     "height": "600px",
     "margin": "auto",
     "display":"grid",
-    "grid-template-columns": "50px 50px auto 50px",
+    "grid-template-columns": "50px 50px auto 100px",
     "grid-template-rows": "50px auto 50px 50px"
   });
 
@@ -159,6 +168,54 @@
     "align-items" : "center",
     "justify-content" : "center"
   });
+
+  if (legend) {
+    $(".legend").css({
+      "grid-area" : "2/4/3/5",
+      "display" : "flex",
+      "flex-direction" : "column",
+      "flex-wrap" : "wrap",
+      "align-items" : "center",
+      "justify-content" : "center"
+    });
+    
+    
+    $(".legend").append(function () {
+      let legendTitle = "<p><strong>Legend</strong></p>";
+      let output = "";
+      for (i = 0; i < arrayLen; i++) {
+        output += "<p><span class = legend-"+ i + "></span>" + dOpt.legend[i] + "</p>";
+      }
+      return legendTitle + output;
+    });
+
+    $(".legend-0").css({
+      "vertical-align" : "middle"
+    })
+    for (i = 0; i < arrayLen; i++) {
+      elemSpan = ".legend-" + i;
+      $(elemSpan).css({
+        "float" : "left",
+        "height" : "10px",
+        "width" : "10px",
+        "background-color" : function () {
+          return dOpt.barColor[i][0];
+        },
+        "margin-right" : "5px",
+        "position" : "relative",
+        "bottom" : "-2px"
+      });
+    }
+    /*for (i = 0; i < arrayLen; i++) {
+      elemLegend = ".legend-" + i + ", span";
+      $(elemLegend).css({
+        "height" : "10px",
+        "width" : "10px",
+        "background-color" : "black",
+        "float" : "left"
+      })
+    }*/
+  }
 
   $(".x-axis-title").css({
     "grid-area" : "4/3/5/4",
