@@ -94,6 +94,9 @@
     
     return titleHtml + graphHtml + yAxisHtml + xAxisHtml + xTitleHtml + yTitleHtml;
   });
+  
+  /*Creates CSS for Div with ID mathing "elem". Divides the Bar Chart area into a 
+  CSS Grid. Sets heigth of entire Div and Width/Margin */
 
   $(elem).css({
     "width": "80%",
@@ -103,6 +106,9 @@
     "grid-template-columns": "50px 50px auto 50px",
     "grid-template-rows": "50px auto 50px 50px"
   });
+
+  /* Creates CSS for title. Defines grid area for Div title. Takes font family,
+  color, and font-size from options. Centers title */
 
   $(".title").css({
     "grid-area" : "1/3/2/4",
@@ -115,9 +121,10 @@
     "font-siize" : function () {
       return dOpt.titleFontSize;
     },
-    "text-align" : "center",
-    "padding-top" : "25px",
-    "font-weight" : "bold"
+    "font-weight" : "bold",
+    "display" : "flex",
+    "align-items" : "center",
+    "justify-content" : "center"
   });
 
   $(".x-axis-title").css({
@@ -195,7 +202,7 @@
 
   $(".graph-area").css({
     "grid-area" : "2/3/3/4",
-    "background-color": "pink",
+    "background-color": "#d1d1d1",
     "display": "grid",
     "grid-template-columns": function () { ///// divides graph area into columns
       let output = "repeat(" + lenData + ",1fr)";
@@ -234,7 +241,8 @@
           let output = i + "/1/" + (i+1) + "/" + (lenData+1);
           return output;
         },
-        "border-bottom" : "dashed"
+        "border-bottom" : "dotted",
+        "border-width" : "0.5px"
       })
     }
     for (i = 0; i < lenData; i++) {///controls which column
@@ -300,7 +308,8 @@
             }
           },
           "margin-top" : "unset",
-          "margin-bottom" : "unset"
+          "margin-bottom" : "unset",
+          "font-weight" : "bold"
         })
         paddingNum = pxFill + paddingNum;
       }
