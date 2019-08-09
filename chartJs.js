@@ -21,7 +21,7 @@
   // Updates Default Options (dOpt) with "options" provided by user //
 
   for (let property in options) {
-      dOpt[property] = options[property];
+    dOpt[property] = options[property];
   }
 
   let lenData;  // sets global
@@ -42,6 +42,7 @@
     lenData = data[0].length;
     legend = true;
 
+    // Assigns default legend titles ///
     if (dOpt.legend.length === 0) {
       for (i = 0; i < arrayLen; i++) {
         dOpt.legend[i] = "data-" + (i+1);
@@ -117,8 +118,8 @@
 
   //alert("round top: " + roundTop);
   //alert("maxArray is: " + maxArray);
-  alert("lenData is:" + lenData);
-  alert("arrayLen is: " + arrayLen);
+  //alert("lenData is:" + lenData);
+  //alert("arrayLen is: " + arrayLen);
   //alert("max is: " + dataMax);
   
   /* Append creates Divs with the following classes: title, x-axis-title, x-axis,
@@ -169,6 +170,7 @@
     "justify-content" : "center"
   });
 
+  /* If stacked bar chart Legend is created. */
   if (legend) {
     $(".legend").css({
       "grid-area" : "2/4/3/5",
@@ -178,7 +180,6 @@
       "align-items" : "center",
       "justify-content" : "center"
     });
-    
     
     $(".legend").append(function () {
       let legendTitle = "<p><strong>Legend</strong></p>";
@@ -206,22 +207,17 @@
         "bottom" : "-2px"
       });
     }
-    /*for (i = 0; i < arrayLen; i++) {
-      elemLegend = ".legend-" + i + ", span";
-      $(elemLegend).css({
-        "height" : "10px",
-        "width" : "10px",
-        "background-color" : "black",
-        "float" : "left"
-      })
-    }*/
   }
+
+  // Defines CSS for x-axis-title ////
 
   $(".x-axis-title").css({
     "grid-area" : "4/3/5/4",
     "text-align" : "center",
     "font-weight" : "bold"
   });
+
+  // Defines CSS for y-axis-title ///
 
   $(".y-axis-title").css({
     "grid-area" : "2/1/3/2",
@@ -231,26 +227,34 @@
     "font-weight" : "bold"
   });
 
+  /* Seperates x-axis into grid. Creates DIVs where the x-labels will go.
+  Defines CSS for each DIV */
+
   $(".x-axis").css({
     "grid-area" : "3/3/4/4",
     "display" : "grid",
-    "grid-template-columns" : function() {// seperate the x-axis into segments in accordance with bar charts
+    "grid-template-columns" : function() { // # of columns matches # of bars
       let output = "repeat(" + lenData + ",1fr)";
       return output;
     },
     "grid-template-rows" : "1fr",
-    "grid-column-gap" : "20px",
+    "grid-column-gap" : function () { // matches the spacing between bars
+      return dOpt.barSpacing;
+    },
     "padding-left" : "10px",
     "padding-right" : "10px"
   });
 
-  $(".x-axis").append(function() {//add values to x axis
+  // Creates DIVs with x-axis labels as values
+  $(".x-axis").append(function() {
     let output = "";
     for (i = 0; i < lenData; i++) {
       output += openDiv + "x-axis-label-" + i + ">" + dOpt.xAxisLabel[i] + closeDiv;
     }
     return output;
   });
+
+  // Defines CSS for DIVs
   for (i = 0; i < lenData; i++) {
     elemXAxis = ".x-axis-label-" + i;
     //alert(elemXAxis);
@@ -261,6 +265,9 @@
     })
   }
 
+  /* Defines CSS for y-axis, creates grid. Creates DIVs to show y-axis values. Y-axis
+  values are calculated and values are inserted into DIVs. Defines CSS for each DIV */
+
   $(".y-axis").css({
     "grid-area" : "2/2/3/3",
     "display" : "grid",
@@ -268,7 +275,8 @@
     "grid-template-rows" : "1fr 2fr 2fr 2fr 2fr 2fr 1fr"
   });
 
-  $(".y-axis").append(function () {///// creates divs for y axis values
+  // Creates DIVs along y-axis. Values are computed by dividing "roundTop" by 5
+  $(".y-axis").append(function () {
     output = "";
     for (i = 1; i <= 5; i++) {
       output += openDiv + "y-axis-" + i + ">" + ((roundTop/5)*i).toFixed(1) + closeDiv;
@@ -277,7 +285,8 @@
     return output;
   });
 
-  for (i = 1; i <= 5; i++) { //// positions y axis values along axis
+  // Define CSS for DIVs
+  for (i = 1; i <= 5; i++) {
     elemYAxis = ".y-axis-" + i;
     $(elemYAxis).css({
       "grid-area" : function () {
@@ -290,11 +299,14 @@
     })
   }
 
+  /* Defines CSS for graph area. Creates another grid inside which will house the
+  bars and y-axis lines */
+
   $(".graph-area").css({
     "grid-area" : "2/3/3/4",
     "background-color": "#e1e1e1",
     "display": "grid",
-    "grid-template-columns": function () { ///// divides graph area into columns
+    "grid-template-columns": function () { ///// Divides graph area into columns
       let output = "repeat(" + lenData + ",1fr)";
       return output;
     },
@@ -307,24 +319,33 @@
     "position":"relative"
   });
   
-  /////////////// Creates visuals in graph area //////////////
+  /////////////// Creates visuals in graph-area //////////////
+
   function createVisual() { 
     
-    // Creates bars and axis lines
+    /* Creates DIVs which will contain bars and y-axis lines. Does this using a for
+    loop to loop through data array and create a bar for each data point. Creates 
+    5 DIVs for the axis lines as the number of axis lines is fixed*/
+
     $(".graph-area").append(function () {
+      
       let output = "";
+
+      /// Creates bars here ///
       for (i = 0; i < arrayLen; i++) {
         for (a = 0; a < lenData; a++) {
           output += openDiv + "bar-" + i + a + ">" + "<p class = label>" + data[i][a] + "</p>" + closeDiv;
         }
       }
+      /// Creates axis line here ///
       for (i = 1; i <= 5; i++) {
         output += openDiv + "axis-line-" + i + ">" + closeDiv;
       }
       return output;
     });
-    
-    for (i = 1; i <=5; i++) { ///////////////////////draws axis lines
+
+    /// Defines CSS for axis lines. Defininig frid areas and border style/weight
+    for (i = 1; i <=5; i++) { 
       elemAxisLine = ".axis-line-" + i;
       $(elemAxisLine).css({
         "grid-area" : function () {
@@ -335,45 +356,58 @@
         "border-width" : "0.5px"
       })
     }
-    for (i = 0; i < lenData; i++) {///controls which column
-      //alert("i is:" + i);
-      let paddingNum = 0;
-      for (a = 0; a < arrayLen; a++) { //controls which layer
-        //alert("a is: " + a)
+
+    /* Defines CSS for bars setting the height, color, label position, label color,
+    and stacking position. Height of bar is calculated by dividing data by the "roundTop"
+    number + 1/5 of "roundTop". This provides a % which is then multiplied by total 
+    height of graph-area.  */
+    for (i = 0; i < lenData; i++) { /// Cycles through columns
+
+      let paddingNum = 0; /// Used to set padding on stacked bars
+
+      for (a = 0; a < arrayLen; a++) { /// Cycles through layers
+        
         let fillPer;
         let pxFill;
 
         fillPer = data[a][i]/(roundTop + ((roundTop/5)));
-        //alert("fill per is: " +fillPer)
         pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
-        //alert(paddingNum);
-        
-        //alert("pxfill is:" + pxFill);
+
         elemBar = ".bar-"+ a + i;
-        //alert(elemBar);
+
         $(elemBar).css({
           "grid-area" : function () {
+
             let output =   "1/" + (i+1) + "/7/" + (i+2);
-            //alert(output);
             return output;
+
           },
           "background-color" : function () {
-            
+
             return dOpt.barColor[a][i];
+
           },
-          "padding-bottom" : function () {
+          "padding-bottom" : function () { /// Ensures that with multiple layers height of bar is precise
+
             return paddingNum + "px";
+
           },
           "height": function () {
+
             return pxFill + "px";
+
           },
           "place-self" : "end stretch",
-          "z-index" : function () {
+          "z-index" : function () { /// Ensure that with multiple layers each bar can be seen
+
               return 100-a;
+
           },
           "display" : "flex",
           "align-items" : function () {
+
             let output = "";
+
             switch (dOpt.valuePosition) {
               case "center":
                 output = "center";
@@ -384,55 +418,40 @@
               case "bottom":
                 output = "flex-end";
             }
+
             return output;
+
           },
           "justify-content" : "center"
         });
+
+        /* Hides numerical values if bar is drawn to small as the value will stick out
+        incorectly */
+
         elemBar += " .label";
-        //alert("elemBar is: " + elemBar);
         $(elemBar).css({
           "visibility" : function () {
-            //alert("pxfill is: " + pxFill);
+
             if (pxFill < 14) {
               return "hidden";
+
             }
           },
           "margin-top" : "unset",
           "margin-bottom" : "unset",
           "font-weight" : "bold",
-          "color" : function () {
+          "color" : function () { /// sets color of values in bars
+
             return dOpt.labelColor;
+
           }
-        })
-        paddingNum = pxFill + paddingNum;
-      }
-      padding = "0px"
-    }
-  } ///////////////////////////////////////////////////////////
+        });
+
+        paddingNum = pxFill + paddingNum; /// Adds the previous height onto padding so next bar is diplayed correctly
+
+      } /// End of loop cycling through layers
+    } /// End of loop cycling through columns
+  } /// End of function createVisual
   createVisual();
 
-
-  
-
-  
 }
- 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* options:
-
-
-*/
