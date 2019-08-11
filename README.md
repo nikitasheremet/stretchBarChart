@@ -13,7 +13,7 @@ Two things are needed to run the API:
 
 An empty div element with a unique ID, and a Script section that calls the drawBarChart() function. 
 
-![Image showing nasic layout]
+![Image showing nasic layout](https://github.com/nikitasheremet/stretchBarChart/blob/master/layout-example.png)
 
 drawBarChart recieves 3 parameters :
 - Data
