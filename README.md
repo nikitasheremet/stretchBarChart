@@ -7,11 +7,13 @@ The goal of this project was to build an API , *drawBarChart()*, that could be u
 When building your webpage in order to use the API you would need to downlod the files **chartJs.js** and
 **jQuery.js** from the Repo and link your *index.html* file to them.
 
-!(https://github.com/nikitasheremet/stretchBarChart/blob/master/link-example.png)
+![Image of .js linking](https://github.com/nikitasheremet/stretchBarChart/blob/master/link-example.png)
 
 Two things are needed to run the API: 
 
 An empty div element with a unique ID, and a Script section that calls the drawBarChart() function. 
+
+![Image showing nasic layout]
 
 drawBarChart recieves 3 parameters :
 - Data
@@ -57,9 +59,9 @@ Add option to make a stacked bar chart out of 100%
 
 ##External Resources
 
-[CSS Grid!](https://css-tricks.com/snippets/css/complete-guide-grid/)
+[CSS Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
 
-[CSS Flexbox!](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+[CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
 
 
