@@ -49,7 +49,7 @@
 
       // Assigns default legend titles ///
       if (dOpt.legend.length === 0) {
-        for (i = 0; i < arrayLen; i++) {
+        for (let i = 0; i < arrayLen; i++) {
           dOpt.legend[i] = "data-" + (i+1);
         }
       }
@@ -59,11 +59,11 @@
       loop below to properly duplicate values*/
       
       if (dOpt.barColor.length === 0) {
-        for (i = 0; i < arrayLen; i++) {
+        for (let i = 0; i < arrayLen; i++) {
           dOpt.barColor.push(new Array(colors[Math.floor(Math.random() * (colors.length-1))]));
         }
       } else {
-        for (i = 0; i < dOpt.barColor.length; i++) {
+        for (let i = 0; i < dOpt.barColor.length; i++) {
           dOpt.barColor[i] = new Array(dOpt.barColor[i]);
         }
       }
@@ -71,8 +71,8 @@
       /* Duplicates the color provided to match the number of values in array to allow formula
       to read through dOpt.barColor correctly */
 
-      for (i = 0; i < arrayLen; i++) {
-        for (a = 1; a < lenData; a++) {
+      for (let i = 0; i < arrayLen; i++) {
+        for (let a = 1; a < lenData; a++) {
           dOpt.barColor[i][a] = dOpt.barColor[i][0];
         }
       }
@@ -84,9 +84,9 @@
 
       let maxArray = []; // Defines arbitrary new array that will be used to find max number
 
-      for (i = 0; i < lenData; i++) {
+      for (let i = 0; i < lenData; i++) {
         let newNum = 0;
-        for (a = 0; a < arrayLen; a++) {
+        for (let a = 0; a < arrayLen; a++) {
           newNum += data[a][i];
         }
         maxArray.push(newNum);
@@ -101,7 +101,7 @@
       data = new Array(data); // Makes data array nested
       // Assigns random color from array "colors" ////
       if (dOpt.barColor.length === 0) {
-        for (i = 0; i < lenData; i++) {
+        for (let i = 0; i < lenData; i++) {
           dOpt.barColor[i] = colors[Math.floor(Math.random() * (colors.length-1))];
         }
       }
@@ -194,7 +194,7 @@
         $(".legend").append(function () {
           let legendTitle = "<p><strong>Legend</strong></p>";
           let output = "";
-          for (i = 0; i < arrayLen; i++) {
+          for (let i = 0; i < arrayLen; i++) {
             output += "<p><span class = legend-"+ i + "></span>" + dOpt.legend[i] + "</p>";
           }
           return legendTitle + output;
@@ -203,8 +203,8 @@
         $(".legend-0").css({
           "vertical-align" : "middle"
         })
-        for (i = 0; i < arrayLen; i++) {
-          elemSpan = ".legend-" + i;
+        for (let i = 0; i < arrayLen; i++) {
+          let elemSpan = ".legend-" + i;
           $(elemSpan).css({
             "float" : "left",
             "height" : "10px",
@@ -261,15 +261,15 @@
       // Creates DIVs with x-axis labels as values
       $(".x-axis").append(function() {
         let output = "";
-        for (i = 0; i < lenData; i++) {
+        for (let i = 0; i < lenData; i++) {
           output += openDiv + "x-axis-label-" + i + ">" + dOpt.xAxisLabel[i] + closeDiv;
         }
         return output;
       });
 
       // Defines CSS for DIVs
-      for (i = 0; i < lenData; i++) {
-        elemXAxis = ".x-axis-label-" + i;
+      for (let i = 0; i < lenData; i++) {
+        let elemXAxis = ".x-axis-label-" + i;
         //alert(elemXAxis);
         $(elemXAxis).css({
           "display" : "flex",
@@ -293,8 +293,8 @@
 
       // Creates DIVs along y-axis. Values are computed by dividing "roundTop" by 5
       $(".y-axis").append(function () {
-        output = "";
-        for (i = 1; i <= 5; i++) {
+        let output = "";
+        for (let i = 1; i <= 5; i++) {
           output += openDiv + "y-axis-" + i + ">" + ((roundTop/5)*i).toFixed(1) + closeDiv;
           //alert("y axis output: " + output);
         }
@@ -302,8 +302,8 @@
       });
 
       // Define CSS for DIVs
-      for (i = 1; i <= 5; i++) {
-        elemYAxis = ".y-axis-" + i;
+      for (let i = 1; i <= 5; i++) {
+        let elemYAxis = ".y-axis-" + i;
         $(elemYAxis).css({
           "grid-area" : function () {
             let output = (-i-1) + "/1/" + (-i-2) + "/2";
@@ -356,21 +356,21 @@
       let output = "";
 
       /// Creates bars here ///
-      for (i = 0; i < arrayLen; i++) {
-        for (a = 0; a < lenData; a++) {
+      for (let i = 0; i < arrayLen; i++) {
+        for (let a = 0; a < lenData; a++) {
           output += openDiv + "bar-" + i + a + ">" + "<p class = label>" + data[i][a] + "</p>" + closeDiv;
         }
       }
       /// Creates axis line here ///
-      for (i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 5; i++) {
         output += openDiv + "axis-line-" + i + ">" + closeDiv;
       }
       return output;
     });
 
     /// Defines CSS for axis lines. Defininig frid areas and border style/weight
-    for (i = 1; i <=5; i++) { 
-      elemAxisLine = ".axis-line-" + i;
+    for (let i = 1; i <=5; i++) { 
+      let elemAxisLine = ".axis-line-" + i;
       $(elemAxisLine).css({
         "grid-area" : function () {
           let output = i + "/1/" + (i+1) + "/" + (lenData+1);
@@ -385,11 +385,11 @@
     and stacking position. Height of bar is calculated by dividing data by the "roundTop"
     number + 1/5 of "roundTop". This provides a % which is then multiplied by total 
     height of graph-area.  */
-    for (i = 0; i < lenData; i++) { /// Cycles through columns
+    for (let i = 0; i < lenData; i++) { /// Cycles through columns
 
       let paddingNum = 0; /// Used to set padding on stacked bars
 
-      for (a = 0; a < arrayLen; a++) { /// Cycles through layers
+      for (let a = 0; a < arrayLen; a++) { /// Cycles through layers
         
         let fillPer;
         let pxFill;
@@ -397,7 +397,7 @@
         fillPer = data[a][i]/(roundTop + ((roundTop/5)));
         pxFill = fillPer * 450; //////need to not hard code!!!!!!!!!!!!!!!
 
-        elemBar = ".bar-"+ a + i;
+        let elemBar = ".bar-"+ a + i;
 
         $(elemBar).css({
           "grid-area" : function () {

@@ -1,0 +1,9 @@
+{
+  "name": "stretch-bar-chart",
+  "version": "1.0.0",
+  "description": "Generates Bar/Stacked Bar graph based on values provided",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-lighthouselabs": "lighthouse-labs/eslint-config-lighthouselabs"
+  }
+}
