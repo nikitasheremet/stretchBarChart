@@ -1,5 +1,5 @@
 node_modules
 .editorconfig
 .eslintrc.js
-package-lock.js
+package-lock.json
 package.json
