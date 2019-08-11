@@ -45,6 +45,12 @@ List of options:
 - **xAxisLabel**: sets lables for bars. Provided as text within an array - No Default
 - **legend**: Only used if stacked Bar Chart. Provided as text within array. One value per set of numbers. eg: Stacked Bar Chart: data: '[[2,3,4],[4,5,6]]': ["toronto", "vancouver"] - default: creates legend numbering each stack in ascending order. eg: Stacked Bar Chart: data: '[[2,3,4],[4,5,6]]': data-1, data-2
 
+See full example on [github pages](https://nikitasheremet.github.io/stretchBarChart/)
+
+Screenshot for html code for above webpage:
+
+
+
 ##Issues/Bugs
 
 If an incorrect number of colors is provided under **barColor**, function will not run
