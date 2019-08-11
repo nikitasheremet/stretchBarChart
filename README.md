@@ -49,25 +49,24 @@ See full example on [github pages](https://nikitasheremet.github.io/stretchBarCh
 
 Screenshot for html code for above webpage:
 
+![screenshot for sample html](https://github.com/nikitasheremet/stretchBarChart/blob/master/example-html.png)
 
-
-##Issues/Bugs
+## Issues/Bugs
 
 If an incorrect number of colors is provided under **barColor**, function will not run
 If an incorrect number of text values is provided under **legend**, function will not run
 If an incorrect number of text values is provided under **xAxisLabel**, function will not run
 
-##Road Map
+## Road Map
 
 Update code to fix issues mentioned under **Issues/Bugs**
 Add defualt values for xAxisLabels
 Add option to make a stacked bar chart out of 100%
 
-##External Resources
+## External Resources
 
 [CSS Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
 
 [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
-
 
 
