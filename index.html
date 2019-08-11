@@ -2,11 +2,12 @@
 <html lang = "es">
   <head>
     <title>Barchart</title>
-    
+
 </head>
 <body>
-   
-  <div id = drawChart></div>
+  <h1>Example Uses:</h1>
+  <div id = exampleChart1></div>
+  <div id = exampleChart2></div>
 
   <!--Scripts to call jQuery library and chart JS file to run drawBarChart() function-->
   <script src="jquery.js"></script>
@@ -14,24 +15,34 @@
 
   <!--Script to call drawBarChart() function and build graph-->
   <script>
-     
-     var data = [[1,2,3,5],[2,3,4,5]];
-    var elem = "#drawChart";
-    var options = 
-    {title: "Best Bar Chart", 
-    xAxisTitle: "Hours", 
-    yAxisTitle: "Dollars",
-    xAxisLabel : ["bar-1", "bar-2", "bar-3","bar-4"]
-    };
 
-    
-    drawBarChart(data,options, elem);
-          
+    var data1 = [75,50,80,95,78,67];
+    var elem1 = "#exampleChart1";
+    var options1 =
+    {title: "Example Bar Chart",
+    xAxisTitle: "Student",
+    yAxisTitle: "Grade Earned on Test",
+    xAxisLabel : ["Sam", "Henry", "Brian", "Peter", "Stewart", "Lois"]
+    };
+    drawBarChart(data1,options1, elem1);
+
+    var data2 = [[75,50,80,95,78,67],[35,56,79,67,98,77]];
+    var elem2 = "#exampleChart2";
+    var options2 =
+    {title: "Example Stacked Bar Chart",
+    xAxisTitle: "Student",
+    yAxisTitle: "Grade Earned on Test",
+    xAxisLabel : ["Sam", "Henry", "Brian", "Peter", "Stewart", "Lois"],
+    barColor: ["salmon", "lightblue"],
+    Legend: ["Math", "English"]
+    };
+    drawBarChart(data2,options2, elem2);
+
   </script>
 
 
-  
-  
-    
+
+
+
 </body>
 </html>

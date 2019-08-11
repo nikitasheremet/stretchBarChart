@@ -169,7 +169,7 @@ function drawBarChart(data, options, elem) {
     /* Creates CSS for title. Defines grid area for Div title. Takes font family,
     color, and font-size from options. Centers title */
 
-    $(".title").css({
+    $(elem + " .title").css({
       "grid-area": "1/3/2/4",
       "font-family": function () {
         return dOpt.titleFont;
@@ -177,7 +177,7 @@ function drawBarChart(data, options, elem) {
       "color": function () {
         return dOpt.titleColor;
       },
-      "font-siize": function () {
+      "font-size": function () {
         return dOpt.titleFontSize;
       },
       "font-weight": "bold",
@@ -191,7 +191,7 @@ function drawBarChart(data, options, elem) {
       /* If stacked bar chart Legend is created. */
 
       if (legend) {
-        $(".legend").css({
+        $(elem + " .legend").css({
           "grid-area": "2/4/3/5",
           "display": "flex",
           "flex-direction": "column",
@@ -200,7 +200,7 @@ function drawBarChart(data, options, elem) {
           "justify-content": "center"
         });
 
-        $(".legend").append(function () {
+        $(elem + " .legend").append(function () {
           let legendTitle = "<p><strong>Legend</strong></p>";
           let output = "";
           for (let i = 0; i < arrayLen; i++) {
@@ -209,11 +209,11 @@ function drawBarChart(data, options, elem) {
           return legendTitle + output;
         });
 
-        $(".legend-0").css({
+        $(elem + " .legend-0").css({
           "vertical-align": "middle"
         });
         for (let i = 0; i < arrayLen; i++) {
-          let elemSpan = ".legend-" + i;
+          let elemSpan = elem + " .legend-" + i;
           $(elemSpan).css({
             "float": "left",
             "height": "10px",
@@ -231,7 +231,7 @@ function drawBarChart(data, options, elem) {
 
     // Defines CSS for x-axis-title ////
 
-    $(".x-axis-title").css({
+    $(elem + " .x-axis-title").css({
       "grid-area": "4/3/5/4",
       "text-align": "center",
       "font-weight": "bold"
@@ -239,7 +239,7 @@ function drawBarChart(data, options, elem) {
 
     // Defines CSS for y-axis-title ///
 
-    $(".y-axis-title").css({
+    $(elem + " .y-axis-title").css({
       "grid-area": "2/1/3/2",
       "writing-mode": "vertical-lr",
       "transform": "rotate(180deg)",
@@ -252,7 +252,7 @@ function drawBarChart(data, options, elem) {
       /* Seperates x-axis into grid. Creates DIVs where the x-labels will go.
       Defines CSS for each DIV */
 
-      $(".x-axis").css({
+      $(elem + " .x-axis").css({
         "grid-area": "3/3/4/4",
         "display": "grid",
         // # of columns matches # of bars
@@ -270,7 +270,7 @@ function drawBarChart(data, options, elem) {
       });
 
       // Creates DIVs with x-axis labels as values
-      $(".x-axis").append(function() {
+      $(elem +" .x-axis").append(function() {
         let output = "";
         for (let i = 0; i < lenData; i++) {
           output += openDiv + "x-axis-label-" + i + ">" + dOpt.xAxisLabel[i] + closeDiv;
@@ -280,7 +280,7 @@ function drawBarChart(data, options, elem) {
 
       // Defines CSS for DIVs
       for (let i = 0; i < lenData; i++) {
-        let elemXAxis = ".x-axis-label-" + i;
+        let elemXAxis = elem + " .x-axis-label-" + i;
         //alert(elemXAxis);
         $(elemXAxis).css({
           "display": "flex",
@@ -295,7 +295,7 @@ function drawBarChart(data, options, elem) {
       /* Defines CSS for y-axis, creates grid. Creates DIVs to show y-axis values. Y-axis
       values are calculated and values are inserted into DIVs. Defines CSS for each DIV */
 
-      $(".y-axis").css({
+      $(elem + " .y-axis").css({
         "grid-area": "2/2/3/3",
         "display": "grid",
         "grid-template-columns": "1fr",
@@ -303,7 +303,7 @@ function drawBarChart(data, options, elem) {
       });
 
       // Creates DIVs along y-axis. Values are computed by dividing "roundTop" by 5
-      $(".y-axis").append(function () {
+      $(elem + " .y-axis").append(function () {
         let output = "";
         for (let i = 1; i <= 5; i++) {
           output += openDiv + "y-axis-" + i + ">" + ((roundTop / 5) * i).toFixed(1) + closeDiv;
@@ -313,7 +313,7 @@ function drawBarChart(data, options, elem) {
 
       // Define CSS for DIVs
       for (let i = 1; i <= 5; i++) {
-        let elemYAxis = ".y-axis-" + i;
+        let elemYAxis = elem + " .y-axis-" + i;
         $(elemYAxis).css({
           "grid-area": function () {
             let output = (-i - 1) + "/1/" + (-i - 2) + "/2";
@@ -330,7 +330,7 @@ function drawBarChart(data, options, elem) {
     bars and y-axis lines. Inside of this grid is where function create visual
     will populate */
 
-    $(".graph-area").css({
+    $(elem + " .graph-area").css({
       "grid-area": "2/3/3/4",
       "background-color": "#e1e1e1",
       "display": "grid",
@@ -362,7 +362,7 @@ function drawBarChart(data, options, elem) {
     loop to loop through data array and create a bar for each data point. Creates
     5 DIVs for the axis lines as the number of axis lines is fixed*/
 
-    $(".graph-area").append(function () {
+    $(elem + " .graph-area").append(function () {
 
       let output = "";
 
@@ -381,7 +381,7 @@ function drawBarChart(data, options, elem) {
 
     /// Defines CSS for axis lines. Defininig frid areas and border style/weight
     for (let i = 1; i <= 5; i++) {
-      let elemAxisLine = ".axis-line-" + i;
+      let elemAxisLine = elem + " .axis-line-" + i;
       $(elemAxisLine).css({
         "grid-area": function () {
           let output = i + "/1/" + (i + 1) + "/" + (lenData + 1);
@@ -413,7 +413,7 @@ function drawBarChart(data, options, elem) {
         //////need to not hard code!!!!!!!!!!!!!!!
         pxFill = fillPer * 450;
 
-        let elemBar = ".bar-" + a + i;
+        let elemBar = elem + " .bar-" + a + i;
 
         $(elemBar).css({
           "grid-area": function () {
