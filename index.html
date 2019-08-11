@@ -17,12 +17,15 @@
   <!--Script to call drawBarChart() function and build graph-->
   <script>
      
-    var data = [100,200,300,500];
+     var data = [[1,2,3,5],[2,3,4,5]];
     var elem = "#drawChart";
     var options = 
-    {title: "Best Bar Chart",
+    {title: "Best Bar Chart", 
+    xAxisTitle: "Hours", 
+    yAxisTitle: "Dollars",
     xAxisLabel : ["bar-1", "bar-2", "bar-3","bar-4"]
     };
+
     
     drawBarChart(data,options, elem);
           
