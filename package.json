@@ -1,9 +1,10 @@
 {
-  "name": "stretch-bar-chart",
+  "name": "stretch-project-1",
   "version": "1.0.0",
-  "description": "Generates Bar/Stacked Bar graph based on values provided",
+  "description": "",
   "devDependencies": {
+    "babel-eslint": "^10.0.2",
     "eslint": "^3.19.0",
-    "eslint-config-lighthouselabs": "lighthouse-labs/eslint-config-lighthouselabs"
+    "eslint-config-lighthouselabs": "github:lighthouse-labs/eslint-config-lighthouselabs"
   }
 }
