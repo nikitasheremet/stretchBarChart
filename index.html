@@ -16,25 +16,26 @@
   <!--Script to call drawBarChart() function and build graph-->
   <script>
 
-    var data1 = [75,50,80,95,78,67];
+    var data1 = [7,5,8,9,7,6];
     var elem1 = "#exampleChart1";
     var options1 =
     {title: "Example Bar Chart",
     xAxisTitle: "Student",
-    yAxisTitle: "Grade Earned on Test",
+    yAxisTitle: "# of Assignments Completed",
     xAxisLabel : ["Sam", "Henry", "Brian", "Peter", "Stewart", "Lois"]
     };
     drawBarChart(data1,options1, elem1);
 
-    var data2 = [[75,50,80,95,78,67],[35,56,79,67,98,77]];
+    var data2 = [[7,5,8,9,7,6],[3,5,7,6,9,7],[7,9,4,5,7,3]];
     var elem2 = "#exampleChart2";
     var options2 =
     {title: "Example Stacked Bar Chart",
     xAxisTitle: "Student",
-    yAxisTitle: "Grade Earned on Test",
+    yAxisTitle: "# of Assignments Completed",
     xAxisLabel : ["Sam", "Henry", "Brian", "Peter", "Stewart", "Lois"],
-    barColor: ["salmon", "lightblue"],
-    Legend: ["Math", "English"]
+    titleColor: "blue",
+    barColor: ["salmon", "lightblue","lightgreen"],
+    legend: ["Math", "English", "Drama"]
     };
     drawBarChart(data2,options2, elem2);
 

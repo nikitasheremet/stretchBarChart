@@ -77,9 +77,11 @@ function drawBarChart(data, options, elem) {
       to read through dOpt.barColor correctly */
 
       for (let i = 0; i < arrayLen; i++) {
+
         for (let a = 1; a < lenData; a++) {
           dOpt.barColor[i][a] = dOpt.barColor[i][0];
         }
+
       }
 
       /* Loops through nested values and adds the first value of each array,
@@ -495,6 +497,7 @@ function drawBarChart(data, options, elem) {
   calcTop();
   defineGraphAreas();
   createVisual();
+
 
   /*
   alert("round top: " + roundTop);
