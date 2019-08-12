@@ -412,8 +412,8 @@ function drawBarChart(data, options, elem) {
         let pxFill;
 
         fillPer = data[a][i] / (roundTop + ((roundTop / 5)));
-        //////need to not hard code!!!!!!!!!!!!!!!
-        pxFill = fillPer * 450;
+
+        pxFill = fillPer * $(elem + " .graph-area").height();
 
         let elemBar = elem + " .bar-" + a + i;
 
@@ -497,7 +497,6 @@ function drawBarChart(data, options, elem) {
   calcTop();
   defineGraphAreas();
   createVisual();
-
 
   /*
   alert("round top: " + roundTop);
